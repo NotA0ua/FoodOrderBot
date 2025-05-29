@@ -1,6 +1,6 @@
 import aiosqlite
 
-from app import DATABASE_URL
+from app.env import DATABASE_URL
 
 
 class Database:
@@ -11,7 +11,7 @@ class Database:
         self.conn = await aiosqlite.connect(DATABASE_URL)
         await self.create_table()
 
-    async def create_table(self) -> None:
+    async def create_table  (self) -> None:
         async with self.conn.cursor() as cursor:
             await cursor.execute(
                 """

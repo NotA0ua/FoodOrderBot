@@ -1,7 +1,3 @@
-from dotenv import load_dotenv
-from os import getenv
+from app.database.database import Database
 
-load_dotenv()
-
-BOT_TOKEN = getenv("BOT_TOKEN")
-DATABASE_URL = getenv("DATABASE_URL")
+db = Database()

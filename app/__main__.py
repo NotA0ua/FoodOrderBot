@@ -6,16 +6,20 @@ from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 import asyncio
 
-from app import BOT_TOKEN
+from app.env import BOT_TOKEN
 from app.handlers import router
+from app import db
 
 dp = Dispatcher()
 dp.include_routers(router)
 
 async def main() -> None:
-    bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.MARKDOWN))
+    await db.connect()
 
+    bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.MARKDOWN))
     await dp.start_polling(bot)
+
+    await db.close()
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, stream=sys.stdout)
