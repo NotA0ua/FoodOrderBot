@@ -1,7 +1,7 @@
 from aiogram import Router
 
-from . import start
+from . import start, admin
 
 router = Router()
 
-router.include_routers(start.router)
+router.include_routers(start.router, admin.router)

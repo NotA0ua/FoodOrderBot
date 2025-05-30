@@ -5,16 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="61335425-4b8b-4f9d-a20c-d4e11e28d95b" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/20f4df94-b972-4d27-b089-7f4c793e7a08.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/20f4df94-b972-4d27-b089-7f4c793e7a08/storage_v2/_src_/schema/main.uQUzAA.meta" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/handlers/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/74bb6cbe-4ed7-48de-a954-f7321905775b.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/74bb6cbe-4ed7-48de-a954-f7321905775b.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/__main__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/__main__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/database/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/database/database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/handlers/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/handlers/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/handlers/start.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/handlers/start.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/utils/menu.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/utils/menu.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database.db" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,7 +105,7 @@
       <workItem from="1748522802975" duration="6785000" />
       <workItem from="1748531887182" duration="9910000" />
       <workItem from="1748592208060" duration="2763000" />
-      <workItem from="1748601217355" duration="3331000" />
+      <workItem from="1748601217355" duration="5449000" />
     </task>
     <servers />
   </component>

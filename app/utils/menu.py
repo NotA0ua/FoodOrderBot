@@ -1,3 +1,5 @@
+import logging
+
 from aiogram import Bot
 from aiogram.types import BotCommand, BotCommandScopeDefault, BotCommandScopeChat
 from app import db
@@ -26,3 +28,4 @@ async def add_menu(bot: Bot):
             await bot.set_my_commands(
                 admin_commands, BotCommandScopeChat(chat_id=admin[0])
             )
+    logging.log(level=logging.INFO, msg="Yep")

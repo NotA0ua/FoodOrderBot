@@ -14,14 +14,18 @@ from app.utils.menu import add_menu
 dp = Dispatcher()
 dp.include_routers(router)
 
+
 async def main() -> None:
     await db.connect()
 
-    bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.MARKDOWN))
+    bot = Bot(
+        token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.MARKDOWN)
+    )
     await add_menu(bot)
     await dp.start_polling(bot)
 
     await db.close()
+
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, stream=sys.stdout)

@@ -137,7 +137,10 @@ class Database:
         self, category: str
     ) -> list[tuple[int, str, str | None, int, str | None] | None]:
         async with self.conn.cursor() as cursor:
-            await cursor.execute("SELECT id, naming, price, image, description FROM foods WHERE category = ?", (category,))
+            await cursor.execute(
+                "SELECT id, naming, price, image, description FROM foods WHERE category = ?",
+                (category,),
+            )
             return await cursor.fetchall()
 
     # --------------------------------------------------------------------------
