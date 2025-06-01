@@ -1,5 +1,3 @@
-from typing import Any, Coroutine
-
 import aiosqlite
 
 from app.env import DATABASE_URL

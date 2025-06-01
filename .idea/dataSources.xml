@@ -2,7 +2,7 @@
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
     <data-source source="LOCAL" name="database" uuid="74bb6cbe-4ed7-48de-a954-f7321905775b">
-      <driver-ref>sqlite.xerial</driver-ref>
+      <driver-ref>73b938b7-5fb5-43e3-97bc-69b18eb61ef1</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
       <jdbc-url>jdbc:sqlite:D:\Programming\Python\bots\FoodOrderBot\database.db</jdbc-url>
