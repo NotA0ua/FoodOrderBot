@@ -28,7 +28,7 @@ def make_keyboard(values: dict[str, str]) -> KeyboardBuilder:
     return builder
 
 
-def make_keyboard_for_user(values: dict[str, str]) -> KeyboardBuilder:
+def make_keyboard_for_admin(values: dict[str, str]) -> KeyboardBuilder:
     builder = make_keyboard(values)
 
     builder.row(InlineKeyboardButton(text="➕", callback_data="add_admin"), width=1)
@@ -37,11 +37,9 @@ def make_keyboard_for_user(values: dict[str, str]) -> KeyboardBuilder:
 
 
 def pagination(
-    values: dict[str, str], page: int, max_per_page: int, callback_name: str
+    values: dict[str, str], page: int, max_per_page: int
 ) -> KeyboardBuilder:
     new_values = dict()
-    for i in values.keys():
-        new_values[callback_name + "_" + i] = values[i]
 
     values = new_values
 
@@ -50,7 +48,7 @@ def pagination(
     max_page_div = len(keys) // max_per_page
     max_page_mod = len(keys) % max_per_page
     if len(keys) <= max_per_page:
-        return make_keyboard_for_user(values)
+        return make_keyboard_for_admin(values)
     else:
         new_values = dict()
         if page == 0:
@@ -70,4 +68,4 @@ def pagination(
                 new_values[f"page_{page-1}"] = "⏪"
                 new_values[f"page_{page+1}"] = "⏩"
 
-        return make_keyboard_for_user(new_values)
+        return make_keyboard_for_admin(new_values)

@@ -5,14 +5,14 @@ from aiogram.fsm.state import StatesGroup, State
 
 from app import db
 from app.middleware.admin import AdminMiddleware
-from app.utils.keyboard_builder import pagination, make_keyboard, make_keyboard_for_user
+from app.utils.keyboard_builder import pagination, make_keyboard, make_keyboard_for_admin
 
 router = Router(name="admin")
 
 router.message.middleware(AdminMiddleware())
 router.callback_query.middleware(AdminMiddleware())
 
-max_per_page = 2
+max_per_page = 5
 
 
 class AddAdmin(StatesGroup):
@@ -28,16 +28,16 @@ async def admins(message: types.Message, page: int = 0):
             admin_username = (
                 await message.bot.get_chat_member(chat_id=admin_id, user_id=admin_id)
             ).user.username
-            values[str(admin_id)] = admin_username if admin_username else str(admin_id)
+            values[f"admin_{admin_id}"] = admin_username if admin_username else str(admin_id)
 
-        keyboard = pagination(values, page, max_per_page, "admin")
+        keyboard = pagination(values, page, max_per_page)
 
         await message.answer(
             f"*Список всех админов*:", reply_markup=keyboard.as_markup()
         )
     else:
         await message.answer(
-            "Админов нет :>", reply_markup=make_keyboard_for_user(dict()).as_markup()
+            "Админов нет :>", reply_markup=make_keyboard_for_admin(dict()).as_markup()
         )
 
 

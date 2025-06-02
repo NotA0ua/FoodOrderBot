@@ -126,17 +126,26 @@ class Database:
 
     async def get_all_food(
         self,
-    ) -> list[tuple[int, str, str | None, int, str | None, str | None] | None]:
+    ) -> list[tuple[int, str, int] | None]:
         async with self.conn.cursor() as cursor:
-            await cursor.execute("SELECT * FROM foods")
+            await cursor.execute("SELECT id, naming, price FROM foods")
             return await cursor.fetchall()
+
+    async def get_all_categories(self) -> list[str] | None:
+        async with self.conn.cursor() as cursor:
+            await cursor.execute("SELECT category FROM foods ORDER BY category")
+            categories = await cursor.fetchall()
+            if categories:
+                return list([i[0] for i in categories])
+
+            return None
 
     async def get_all_food_by_category(
         self, category: str
-    ) -> list[tuple[int, str, str | None, int, str | None] | None]:
+    ) -> list[tuple[int, str, int] | None]:
         async with self.conn.cursor() as cursor:
             await cursor.execute(
-                "SELECT id, naming, price, image, description FROM foods WHERE category = ?",
+                "SELECT id, naming, price FROM foods WHERE category = ?",
                 (category,),
             )
             return await cursor.fetchall()
@@ -193,8 +202,8 @@ class Database:
             admins = await cursor.fetchall()
             if admins:
                 return list([i[0] for i in admins])
-            else:
-                return None
+
+            return None
 
     async def delete_admin(self, admin_id: int) -> bool:
         async with self.conn.cursor() as cursor:
