@@ -36,10 +36,12 @@ def make_keyboard_for_user(values: dict[str, str]) -> KeyboardBuilder:
     return builder
 
 
-def pagination(values: dict[str, str], page: int, max_per_page: int, callback_name: str) -> KeyboardBuilder:
+def pagination(
+    values: dict[str, str], page: int, max_per_page: int, callback_name: str
+) -> KeyboardBuilder:
     new_values = dict()
     for i in values.keys():
-        new_values[callback_name + i] = values[i]
+        new_values[callback_name + "_" + i] = values[i]
 
     values = new_values
 
@@ -54,18 +56,18 @@ def pagination(values: dict[str, str], page: int, max_per_page: int, callback_na
         if page == 0:
             for key in keys[0:max_per_page]:
                 new_values[key] = values[key]
-            new_values[f"page{page+1}"] = "⏩"
+            new_values[f"page_{page+1}"] = "⏩"
 
         elif page == max_page_div and max_page_mod != 0:
             for key in keys[page * max_per_page :]:
                 new_values[key] = values[key]
-            new_values[f"page{page-1}"] = "⏪"
+            new_values[f"page_{page-1}"] = "⏪"
 
         else:
             for key in keys[page * max_per_page : (page + 1) * max_per_page]:
                 new_values[key] = values[key]
 
-                new_values[f"page{page-1}"] = "⏪"
-                new_values[f"page{page+1}"] = "⏩"
+                new_values[f"page_{page-1}"] = "⏪"
+                new_values[f"page_{page+1}"] = "⏩"
 
         return make_keyboard_for_user(new_values)

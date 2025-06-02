@@ -43,7 +43,7 @@ class Database:
                 """
                 CREATE TABLE IF NOT EXISTS admins
                 (
-                    user_id INTEGER PRIMARY KEY
+                    id INTEGER PRIMARY KEY
                 )
                 """
             )
@@ -181,18 +181,20 @@ class Database:
     async def add_admin(self, user_id: int) -> bool | None:
         try:
             async with self.conn.cursor() as cursor:
-                await cursor.execute(
-                    "INSERT INTO admins (user_id) VALUES (?)", (user_id,)
-                )
+                await cursor.execute("INSERT INTO admins (id) VALUES (?)", (user_id,))
                 await self.conn.commit()
                 return cursor.lastrowid
         except aiosqlite.IntegrityError:
             return None
 
-    async def get_all_admins(self) -> list[tuple[int] | None]:
+    async def get_all_admins(self) -> list[int] | None:
         async with self.conn.cursor() as cursor:
             await cursor.execute("SELECT * FROM admins")
-            return await cursor.fetchall()
+            admins = await cursor.fetchall()
+            if admins:
+                return list([i[0] for i in admins])
+            else:
+                return None
 
     async def delete_admin(self, admin_id: int) -> bool:
         async with self.conn.cursor() as cursor:

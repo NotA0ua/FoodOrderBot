@@ -5,8 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="61335425-4b8b-4f9d-a20c-d4e11e28d95b" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/middleware/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/middleware/throttling.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/__main__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/__main__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/database/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/database/database.py" afterDir="false" />
@@ -14,7 +14,6 @@
       <change beforePath="$PROJECT_DIR$/app/handlers/start.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/handlers/start.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/utils/keyboard_builder.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/utils/keyboard_builder.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/utils/menu.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/utils/menu.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database.db" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,13 +48,13 @@
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;Shell Script.StartBot.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
@@ -112,7 +111,11 @@
       <workItem from="1748678489014" duration="6157000" />
       <workItem from="1748709220540" duration="4567000" />
       <workItem from="1748732088954" duration="4164000" />
-      <workItem from="1748793027479" duration="1128000" />
+      <workItem from="1748793027479" duration="12204000" />
+      <workItem from="1748808136775" duration="3421000" />
+      <workItem from="1748814747972" duration="55000" />
+      <workItem from="1748814833199" duration="1952000" />
+      <workItem from="1748850589672" duration="2987000" />
     </task>
     <servers />
   </component>
