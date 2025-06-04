@@ -211,6 +211,15 @@ class Database:
             await self.conn.commit()
             return cursor.rowcount > 0
 
+    async def is_there_admin(self, user_id: int) -> bool:
+        async with self.conn.cursor() as cursor:
+            await cursor.execute(
+                "SELECT id FROM admins WHERE id = ?",
+                (user_id,),
+            )
+            return (await cursor.fetchone()) is not None
+
+
     async def close(self):
         if self.conn:
             await self.conn.close()

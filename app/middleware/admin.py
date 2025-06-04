@@ -14,9 +14,7 @@ class AdminMiddleware(BaseMiddleware):
         event: TelegramObject,
         data: Dict[str, Any],
     ) -> Any:
-        admins = await db.get_all_admins()
-
-        if event.from_user.id in admins:
+        if await db.is_there_admin(event.from_user.id):
             return await handler(event, data)
         else:
             return None

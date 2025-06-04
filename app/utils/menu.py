@@ -4,12 +4,12 @@ from app import db
 
 user_commands = [
     BotCommand(command="start", description="Перезапустить бота"),
-    BotCommand(command="order", description="Заказать товар"),
+    BotCommand(command="order", description="Заказать еду"),
     BotCommand(command="cart", description="Показать корзину"),
 ]
 admin_commands = user_commands + [
     BotCommand(command="admin", description="Список админов"),
-    BotCommand(command="foods", description="Показать все товары"),
+    BotCommand(command="add_food", description="Добавить новую еду")
 ]
 
 

@@ -10,7 +10,7 @@ from aiogram.methods import DeleteWebhook
 from app import db
 from app.env import BOT_TOKEN
 from app.handlers import router
-from app.middleware.throttling import ThrottlingMiddleware
+from app.middleware import ThrottlingMiddleware
 from app.utils.menu import add_menu
 
 dp = Dispatcher()

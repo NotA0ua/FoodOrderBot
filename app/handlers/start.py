@@ -12,5 +12,5 @@ async def start(message: types.Message, state: FSMContext) -> None:
     await state.clear()
     await message.answer(
         f"Здравствуйте, {message.from_user.full_name}, я бот для заказа еды!\nНапишите /order, чтобы что-то заказать.",
-        reply_markup=None,
+        reply_markup=types.ReplyKeyboardRemove(),
     )
