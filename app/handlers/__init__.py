@@ -1,7 +1,9 @@
 from aiogram import Router
 
-from . import start, admin, order, add_food
+from . import admin
+from . import user
+
 
 router = Router()
 
-router.include_routers(start.router, admin.router, order.router, add_food.router)
+router.include_routers(admin.router, user.router)

@@ -9,7 +9,7 @@ user_commands = [
 ]
 admin_commands = user_commands + [
     BotCommand(command="admin", description="Список админов"),
-    BotCommand(command="add_food", description="Добавить новую еду")
+    BotCommand(command="add_food", description="Добавить новую еду"),
 ]
 
 

@@ -28,7 +28,9 @@ def make_keyboard(values: dict[str, str]) -> KeyboardBuilder:
     return builder
 
 
-def make_keyboard_with_plus(values: dict[str, str], callback_data: str) -> KeyboardBuilder:
+def make_keyboard_with_plus(
+    values: dict[str, str], callback_data: str
+) -> KeyboardBuilder:
     builder = make_keyboard(values)
 
     builder.row(InlineKeyboardButton(text="➕", callback_data=callback_data), width=1)

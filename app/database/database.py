@@ -219,7 +219,6 @@ class Database:
             )
             return (await cursor.fetchone()) is not None
 
-
     async def close(self):
         if self.conn:
             await self.conn.close()
