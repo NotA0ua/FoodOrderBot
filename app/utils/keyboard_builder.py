@@ -47,23 +47,22 @@ def pagination(
     max_page_mod = len(keys) % max_per_page
     if len(keys) <= max_per_page:
         return values
+    new_values = dict()
+    if page == 0:
+        for key in keys[0:max_per_page]:
+            new_values[key] = values[key]
+        new_values[f"page_{prefix}_{page+1}"] = "⏩"
+
+    elif (page == max_page_div-1 and max_page_mod == 0) or (max_page_mod != 0 and page == max_page_div):
+        for key in keys[page * max_per_page :]:
+            new_values[key] = values[key]
+        new_values[f"page_{prefix}_{page-1}"] = "⏪"
+
     else:
-        new_values = dict()
-        if page == 0:
-            for key in keys[0:max_per_page]:
-                new_values[key] = values[key]
-            new_values[f"page_{prefix}_{page+1}"] = "⏩"
+        for key in keys[page * max_per_page : (page + 1) * max_per_page]:
+            new_values[key] = values[key]
 
-        elif page == max_page_div and max_page_mod != 0:
-            for key in keys[page * max_per_page :]:
-                new_values[key] = values[key]
-            new_values[f"page_{prefix}_{page-1}"] = "⏪"
-
-        else:
-            for key in keys[page * max_per_page : (page + 1) * max_per_page]:
-                new_values[key] = values[key]
-
-                new_values[f"page_{prefix}_{page-1}"] = "⏪"
-                new_values[f"page_{prefix}_{page+1}"] = "⏩"
+        new_values[f"page_{prefix}_{page-1}"] = "⏪"
+        new_values[f"page_{prefix}_{page+1}"] = "⏩"
 
     return new_values

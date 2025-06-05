@@ -3,7 +3,7 @@ from aiogram import types
 from app import db
 from app.utils.keyboard_builder import pagination, make_keyboard_with_plus
 
-MAX_PER_PAGE = 2
+MAX_PER_PAGE = 8
 
 
 async def admins(message: types.Message, page: int = 0):

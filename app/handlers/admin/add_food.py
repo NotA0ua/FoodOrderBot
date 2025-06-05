@@ -68,7 +68,7 @@ async def add_food_price_handler(message: types.Message, state: FSMContext) -> N
         await state.update_data({"price": message.text})
         await state.set_state(AddFood.image)
         await message.answer(
-            "Введите *ссылку на изображение* товара.\n(Если нет, то `-`):"
+            "Отправьте *изображение* товара.\n(Если нет, то введите что угодно):"
         )
     else:
         await message.answer("Вы ввели неправильный формат цены!\nПопробуйте ещё раз:")
@@ -76,18 +76,13 @@ async def add_food_price_handler(message: types.Message, state: FSMContext) -> N
 
 @router.message(AddFood.image)
 async def add_food_image_handler(message: types.Message, state: FSMContext) -> None:
-    if message.text != "-" and not url(str(message.text)):
-        await message.answer(
-            "Вы ввели неправильный формат ссылки на изображение!\nПопробуйте ещё раз:"
-        )
+    if message.photo:
+        await state.update_data({"image": message.photo[0].file_id})
     else:
-        if message.text == "-":
-            await state.update_data({"image": None})
-        elif url(str(message.text)):
-            await state.update_data({"image": message.text})
+        await state.update_data({"image": None})
 
-        await state.set_state(AddFood.category)
-        await message.answer("Введите *категорию* товара.\n(Если нет, то `-`):")
+    await state.set_state(AddFood.category)
+    await message.answer("Введите *категорию* товара.\n(Если нет, то `-`):")
 
 
 @router.message(AddFood.category)
@@ -113,15 +108,15 @@ async def add_food_category_handler(message: types.Message, state: FSMContext) -
     )
     await state.clear()
     if result:
-        await message.answer(
-            f"""
-        Отлично, товар создан!
-        Название: `{naming}`
-        Описание: `{description}`
-        Цена: `{price}`
-        Ссылка на изображение: `{image}`
-        Категория: `{category}`
-        """,
+        await message.answer_photo(
+            photo=image,
+            caption=f"""
+Отлично, товар создан!
+Название: `{naming}`
+Описание: `{description}`
+Цена: `{price}`
+Категория: `{category}`
+            """,
             reply_markup=types.ReplyKeyboardRemove(),
         )
     else:
