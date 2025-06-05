@@ -17,5 +17,8 @@ async def add_menu(bot: Bot):
     await bot.set_my_commands(user_commands, BotCommandScopeDefault())
 
     admins = await db.get_all_admins()
-    for admin in admins:
-        await bot.set_my_commands(admin_commands, BotCommandScopeChat(chat_id=admin))
+    if admins:
+        for admin in admins:
+            await bot.set_my_commands(
+                admin_commands, BotCommandScopeChat(chat_id=admin)
+            )

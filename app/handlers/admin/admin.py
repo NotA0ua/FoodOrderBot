@@ -1,5 +1,6 @@
 from aiogram import Router, types, F
 from aiogram.filters import Command
+from aiogram.fsm.context import FSMContext
 
 from app.utils.keyboard_builder import make_keyboard
 from .utils import admins
@@ -9,7 +10,8 @@ router = Router(name="admin")
 
 
 @router.message(Command("admin", "admins"))
-async def admins_handler(message: types.Message) -> None:
+async def admins_handler(message: types.Message, state: FSMContext) -> None:
+    await state.clear()
     await admins(message)
 
 

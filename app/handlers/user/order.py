@@ -1,30 +1,47 @@
 from aiogram import Router, types, F
-from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
+from aiogram.fsm.state import State, StatesGroup
 
-from .utils import foods, food_categories, food_profile
+from app import db
+
+
+class Order(StatesGroup):
+    amount = State()
+
 
 router = Router()
 
 
-@router.message(Command("order"))
-async def categories_handler(message: types.Message, state: FSMContext) -> None:
-    await state.clear()
-    await food_categories(message)
+@router.callback_query(F.data.startswith("order"))
+async def order_handler(callback_query: types.CallbackQuery, state: FSMContext) -> None:
+    food_id = int(callback_query.data.removeprefix("order_"))
+    await state.update_data({"food_id": food_id})
+    await state.set_state(Order.amount)
+    await callback_query.message.answer(text="Введите количество товара (1-999)")
+    await callback_query.message.delete()
 
 
-@router.callback_query(F.data.startswith("page_category"))
-async def page_categories_handler(
-    callback_query: types.CallbackQuery
-) -> None:
-    page = int(callback_query.data.removeprefix("page_category_"))
-    await food_categories(callback_query.message, page)
+@router.message(Order.amount)
+async def order_amount_handler(message: types.Message, state: FSMContext) -> None:
+    if message.text.isdigit() and (amount := int(message.text)) in range(1, 1000):
+        food_id = await state.get_value("food_id")
+        order_id = await db.get_order(message.from_user.id, food_id)
+        food_naming = (await db.get_food(food_id))[0]
+        if order_id:
+            result = await db.update_order(order_id, amount)
+        else:
+            result = await db.add_order(
+                message.from_user.id, food_id, int(message.text)
+            )
 
-
-@router.callback_query(F.data.startswith("page_food"))
-async def foods_page_handler(callback_query: types.CallbackQuery) -> None:
-    await foods(callback_query)
-
-@router.callback_query(F.data.startswith("food"))
-async def food_page_handler(callback_query: types.CallbackQuery) -> None:
-    await food_profile(callback_query)
+        if result:
+            await message.answer(
+                f"Отлично!\n*{food_naming}* добавлено в количестве `{amount}` шт."
+            )
+        else:
+            await message.answer(f"Что-то пошло не так. Попробуйте еще раз!")
+        await state.clear()
+    else:
+        await message.answer(
+            "Вы ввели неправильный формат количества!\nПопробуйте еще раз или напишите /start"
+        )

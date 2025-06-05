@@ -1,11 +1,8 @@
-import logging
-
 from aiogram import types
 
-from app import db
+from app import db, MAX_PER_PAGE
 from app.utils.keyboard_builder import make_keyboard, pagination
 
-MAX_PER_PAGE = 8
 
 async def food_categories(message: types.Message, page: int = 0) -> None:
     categories = await db.get_all_categories()
@@ -57,7 +54,7 @@ async def food_profile(callback_query: types.CallbackQuery) -> None:
         return None
 
     naming = food[0]
-    description= food[1]
+    description = food[1]
     price = food[2]
     image = food[3]
 
@@ -67,11 +64,14 @@ async def food_profile(callback_query: types.CallbackQuery) -> None:
         description = ""
 
     text = f"*{naming}* - {price}₽\n{description}"
-    reply_markup = make_keyboard({f"page_food_{category}_0": "🔙"}).as_markup()
-
+    reply_markup = make_keyboard(
+        {f"order_{food_id}": "📝", f"page_food_{category}_0": "🔙"}
+    ).as_markup()
 
     if image:
-        await callback_query.message.answer_photo(image, caption=text, reply_markup=reply_markup)
+        await callback_query.message.answer_photo(
+            image, caption=text, reply_markup=reply_markup
+        )
         await callback_query.message.delete()
         return None
 

@@ -1,12 +1,10 @@
 from aiogram import types
 
-from app import db
+from app import db, MAX_PER_PAGE
 from app.utils.keyboard_builder import pagination, make_keyboard_with_plus
 
-MAX_PER_PAGE = 8
 
-
-async def admins(message: types.Message, page: int = 0):
+async def admins(message: types.Message, page: int = 0) -> None:
     admins_list = await db.get_all_admins()
     if admins_list:
         values = dict()

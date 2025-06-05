@@ -11,6 +11,10 @@ class Database:
         self.conn = await aiosqlite.connect(DATABASE_URL)
         await self.create_table()
 
+    async def close(self):
+        if self.conn:
+            await self.conn.close()
+
     async def create_table(self) -> None:
         async with self.conn.cursor() as cursor:
             await cursor.execute(
@@ -159,6 +163,7 @@ class Database:
                     "INSERT INTO orders (user_id, food_id, amount) VALUES (?, ?, ?)",
                     (user_id, food_id, amount),
                 )
+
                 await self.conn.commit()
                 return cursor.lastrowid
         except aiosqlite.IntegrityError:
@@ -172,6 +177,24 @@ class Database:
             await self.conn.commit()
             return cursor.rowcount > 0
 
+    async def get_order(self, user_id: int, food_id: int) -> int | None:
+        async with self.conn.cursor() as cursor:
+            await cursor.execute(
+                "SELECT id FROM orders WHERE user_id = ? AND food_id = ?",
+                (user_id, food_id),
+            )
+            order_id = await cursor.fetchall()
+            if order_id:
+                return order_id[0]
+            return None
+
+    async def get_order_by_id(self, order_id: int) -> tuple[int, int, int] | None:
+        async with self.conn.cursor() as cursor:
+            await cursor.execute(
+                "SELECT user_id, food_id, amount FROM orders WHERE id = ?", (order_id,)
+            )
+            return await cursor.fetchall()
+
     async def get_all_orders(self, user_id: int) -> list[tuple[int, int, int] | None]:
         async with self.conn.cursor() as cursor:
             await cursor.execute(
@@ -179,7 +202,7 @@ class Database:
             )
             return await cursor.fetchall()
 
-    async def delete_orders(self, order_id: int) -> bool:
+    async def delete_order(self, order_id: int) -> bool:
         async with self.conn.cursor() as cursor:
             await cursor.execute("DELETE FROM orders WHERE id = ?", (order_id,))
             await self.conn.commit()
@@ -218,7 +241,3 @@ class Database:
                 (user_id,),
             )
             return (await cursor.fetchone()) is not None
-
-    async def close(self):
-        if self.conn:
-            await self.conn.close()

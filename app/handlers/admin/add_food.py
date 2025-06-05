@@ -1,13 +1,11 @@
 from aiogram import Router, F, types
 from aiogram.filters import Command
-from aiogram.utils.keyboard import ReplyKeyboardMarkup
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
+from aiogram.utils.keyboard import ReplyKeyboardMarkup
 
 from app import db
 from app.handlers.user import food_categories
-
-from validators import url
 
 
 class AddFood(StatesGroup):

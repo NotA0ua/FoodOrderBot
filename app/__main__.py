@@ -20,6 +20,7 @@ dp.message.middleware(ThrottlingMiddleware())
 dp.callback_query.middleware(ThrottlingMiddleware())
 
 
+# noinspection PyUnusedLocal
 async def on_stop(bot: Bot) -> None:
     logging.log(level=logging.INFO, msg="Shutdown requested")
     await db.close()

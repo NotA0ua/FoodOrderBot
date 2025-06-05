@@ -2,8 +2,6 @@ from aiogram import Router, types
 from aiogram.filters import CommandStart
 from aiogram.fsm.context import FSMContext
 
-from app.middleware.admin import AdminMiddleware
-
 router = Router(name="start")
 
 
