@@ -1,9 +1,13 @@
+import logging
+
 from aiogram import Router, types, F
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 
 from app import db
 
+
+MAX_ORDERS_AMOUNT = 2
 
 class Order(StatesGroup):
     amount = State()
@@ -27,12 +31,18 @@ async def order_amount_handler(message: types.Message, state: FSMContext) -> Non
         food_id = await state.get_value("food_id")
         order_id = await db.get_order(message.from_user.id, food_id)
         food_naming = (await db.get_food(food_id))[0]
-        if order_id:
-            result = await db.update_order(order_id, amount)
+        logging.info(len(await db.get_all_orders(message.from_user.id)))
+        if len(await db.get_all_orders(message.from_user.id)) < MAX_ORDERS_AMOUNT:
+            if order_id:
+                result = await db.update_order(order_id, amount)
+            else:
+                result = await db.add_order(
+                    message.from_user.id, food_id, int(message.text)
+                )
         else:
-            result = await db.add_order(
-                message.from_user.id, food_id, int(message.text)
-            )
+            await message.answer(f"Вы не можете сделать больше {MAX_ORDERS_AMOUNT} заказов!")
+            await state.clear()
+            return None
 
         if result:
             await message.answer(
@@ -45,3 +55,5 @@ async def order_amount_handler(message: types.Message, state: FSMContext) -> Non
         await message.answer(
             "Вы ввели неправильный формат количества!\nПопробуйте еще раз или напишите /start"
         )
+
+    return None

@@ -185,7 +185,7 @@ class Database:
             )
             order_id = await cursor.fetchall()
             if order_id:
-                return order_id[0]
+                return int(order_id[0][0])
             return None
 
     async def get_order_by_id(self, order_id: int) -> tuple[int, int, int] | None:
@@ -205,6 +205,13 @@ class Database:
     async def delete_order(self, order_id: int) -> bool:
         async with self.conn.cursor() as cursor:
             await cursor.execute("DELETE FROM orders WHERE id = ?", (order_id,))
+            await self.conn.commit()
+            return cursor.rowcount > 0
+
+
+    async def delete_all_orders(self, user_id: int) -> bool:
+        async with self.conn.cursor() as cursor:
+            await cursor.execute("DELETE FROM orders WHERE user_id = ?", (user_id,))
             await self.conn.commit()
             return cursor.rowcount > 0
 

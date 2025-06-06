@@ -38,6 +38,7 @@ async def admin_id_handler(message: types.Message, state: FSMContext) -> None:
             admin_id = int(message.text)
             await db.add_admin(admin_id)
             await state.clear()
+            await message.bot.send_message(admin_id, f"Поздравляю, вы теперь админ!")
             await admins(message)
     else:
         await message.answer(
