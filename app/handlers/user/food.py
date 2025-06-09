@@ -17,6 +17,7 @@ async def categories_handler(message: types.Message, state: FSMContext) -> None:
 async def page_categories_handler(callback_query: types.CallbackQuery) -> None:
     page = int(callback_query.data.removeprefix("page_category_"))
     await food_categories(callback_query.message, page)
+    await callback_query.message.delete()
 
 
 @router.callback_query(F.data.startswith("page_food"))

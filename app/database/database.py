@@ -85,6 +85,16 @@ class Database:
             )
             return await cursor.fetchone()
 
+    async def get_food_by_naming(
+            self, naming: str
+    ) -> list[tuple[int, str, str | None, int, str | None, str | None] | None]:
+        async with self.conn.cursor() as cursor:
+            await cursor.execute(
+                "SELECT id, naming, description, price, image, category FROM foods WHERE naming LIKE ? COLLATE NOCASE",
+                (f"%{naming}%",),
+            )
+            return await cursor.fetchall()
+
     async def update_food(
         self,
         food_id: int,

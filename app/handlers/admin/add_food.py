@@ -23,7 +23,7 @@ router = Router()
 async def add_food_handler(message: types.Message, state: FSMContext) -> None:
     await state.set_state(AddFood.naming)
     await message.answer(
-        "Введите *имя* товара:",
+        "🪧 Введите *название* товара:",
         reply_markup=ReplyKeyboardMarkup(
             keyboard=[[types.KeyboardButton(text="❌ Отмена")]]
         ),
@@ -45,7 +45,7 @@ async def add_food_cancel_handler(message: types.Message, state: FSMContext) -> 
 async def add_food_name_handler(message: types.Message, state: FSMContext) -> None:
     await state.update_data({"naming": message.text})
     await state.set_state(AddFood.description)
-    await message.answer("Введите *описание* товара.\n(Если нет, то `-`):")
+    await message.answer("ℹ️ Введите *описание* товара.\n(Если нет, то `-`):")
 
 
 @router.message(AddFood.description)
@@ -57,7 +57,7 @@ async def add_food_description_handler(
     else:
         await state.update_data({"description": message.text})
     await state.set_state(AddFood.price)
-    await message.answer("Введите *цену* товара\n(Например 42, 100):")
+    await message.answer("💰 Введите *цену* товара\n(Например 42, 100):")
 
 
 @router.message(AddFood.price)
@@ -66,10 +66,10 @@ async def add_food_price_handler(message: types.Message, state: FSMContext) -> N
         await state.update_data({"price": message.text})
         await state.set_state(AddFood.image)
         await message.answer(
-            "Отправьте *изображение* товара.\n(Если нет, то введите что угодно):"
+            "🖼️ Отправьте *изображение* товара.\n(Если нет, то введите что угодно):"
         )
     else:
-        await message.answer("Вы ввели неправильный формат цены!\nПопробуйте ещё раз:")
+        await message.answer("⚠️ Вы ввели неправильный формат цены!\nПопробуйте ещё раз:")
 
 
 @router.message(AddFood.image)
@@ -80,7 +80,7 @@ async def add_food_image_handler(message: types.Message, state: FSMContext) -> N
         await state.update_data({"image": None})
 
     await state.set_state(AddFood.category)
-    await message.answer("Введите *категорию* товара.\n(Если нет, то `-`):")
+    await message.answer("📋 Введите *категорию* товара.\n(Если нет, то `-`):")
 
 
 @router.message(AddFood.category)
@@ -106,19 +106,34 @@ async def add_food_category_handler(message: types.Message, state: FSMContext) -
     )
     await state.clear()
     if result:
-        await message.answer_photo(
-            photo=image,
-            caption=f"""
-Отлично, товар создан!
+        if image:
+            await message.answer_photo(
+                photo=image,
+                caption=f"""
+✅ Отлично, товар создан!
+
 Название: `{naming}`
 Описание: `{description}`
 Цена: `{price}`
 Категория: `{category}`
-            """,
-            reply_markup=types.ReplyKeyboardRemove(),
-        )
+                """,
+                reply_markup=types.ReplyKeyboardRemove(),
+            )
+        else:
+            await message.answer(
+                text=f"""
+✅ Отлично, товар создан!
+
+Название: `{naming}`
+Описание: `{description}`
+Цена: `{price}`
+Категория: `{category}`
+                """,
+                reply_markup=types.ReplyKeyboardRemove(),
+            )
+
     else:
         await message.answer(
-            "Ой-ой, что-то пошло не так! Попробуйте еще раз.",
+            "⚠️ Ой-ой, что-то пошло не так! Попробуйте еще раз.",
             reply_markup=types.ReplyKeyboardRemove(),
         )

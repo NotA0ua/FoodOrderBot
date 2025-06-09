@@ -30,7 +30,7 @@ async def admin_handler(callback_query: types.CallbackQuery) -> None:
         await callback_query.bot.get_chat_member(chat_id=admin_id, user_id=admin_id)
     ).user.username
     await callback_query.message.edit_text(
-        text=f"Пользователь @{admin_username} - `{admin_id}`",
+        text=f"👨‍💻 Админ @{admin_username} - `{admin_id}`",
         reply_markup=make_keyboard(
             {f"delete_admin_{admin_id}": "🗑", "page_admin_0": "🔙"}
         ).as_markup(),

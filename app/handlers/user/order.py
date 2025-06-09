@@ -4,10 +4,9 @@ from aiogram import Router, types, F
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 
-from app import db
+from app import db, MAX_ORDERS_AMOUNT
 
 
-MAX_ORDERS_AMOUNT = 2
 
 class Order(StatesGroup):
     amount = State()
@@ -21,7 +20,7 @@ async def order_handler(callback_query: types.CallbackQuery, state: FSMContext) 
     food_id = int(callback_query.data.removeprefix("order_"))
     await state.update_data({"food_id": food_id})
     await state.set_state(Order.amount)
-    await callback_query.message.answer(text="Введите количество товара (1-999)")
+    await callback_query.message.answer(text="🔢 Введите количество товара (1-999)")
     await callback_query.message.delete()
 
 
@@ -31,7 +30,6 @@ async def order_amount_handler(message: types.Message, state: FSMContext) -> Non
         food_id = await state.get_value("food_id")
         order_id = await db.get_order(message.from_user.id, food_id)
         food_naming = (await db.get_food(food_id))[0]
-        logging.info(len(await db.get_all_orders(message.from_user.id)))
         if len(await db.get_all_orders(message.from_user.id)) < MAX_ORDERS_AMOUNT:
             if order_id:
                 result = await db.update_order(order_id, amount)
@@ -40,20 +38,20 @@ async def order_amount_handler(message: types.Message, state: FSMContext) -> Non
                     message.from_user.id, food_id, int(message.text)
                 )
         else:
-            await message.answer(f"Вы не можете сделать больше {MAX_ORDERS_AMOUNT} заказов!")
+            await message.answer(f"⚠ Вы не можете сделать больше {MAX_ORDERS_AMOUNT} заказов!")
             await state.clear()
             return None
 
         if result:
             await message.answer(
-                f"Отлично!\n*{food_naming}* добавлено в количестве `{amount}` шт."
+                f"✅ Отлично!\n*{food_naming}* добавлено в количестве `{amount}` шт."
             )
         else:
-            await message.answer(f"Что-то пошло не так. Попробуйте еще раз!")
+            await message.answer(f"⚠️ Что-то пошло не так. Попробуйте еще раз!")
         await state.clear()
     else:
         await message.answer(
-            "Вы ввели неправильный формат количества!\nПопробуйте еще раз или напишите /start"
+            "⚠ Вы ввели неправильный формат количества!\nПопробуйте еще раз или напишите /start"
         )
 
     return None

@@ -12,6 +12,7 @@ from app.env import BOT_TOKEN
 from app.handlers import router
 from app.middleware import ThrottlingMiddleware
 from app.utils.menu import add_menu
+from app.env import DEFAULT_ADMIN_IDS
 
 dp = Dispatcher()
 dp.include_routers(router)
@@ -28,6 +29,8 @@ async def on_stop(bot: Bot) -> None:
 
 async def main() -> None:
     await db.connect()
+    for admin in DEFAULT_ADMIN_IDS:
+        await db.add_admin(admin)
 
     bot = Bot(
         token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.MARKDOWN)

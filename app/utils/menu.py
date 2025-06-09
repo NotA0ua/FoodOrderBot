@@ -3,13 +3,15 @@ from aiogram.types import BotCommand, BotCommandScopeDefault, BotCommandScopeCha
 from app import db
 
 user_commands = [
-    BotCommand(command="start", description="Перезапустить бота"),
-    BotCommand(command="order", description="Заказать еду"),
-    BotCommand(command="cart", description="Показать корзину"),
+    BotCommand(command="start", description="🔃 Перезапустить бота"),
+    BotCommand(command="order", description="🛎️ Заказать еду"),
+    BotCommand(command="cart", description="🛒 Показать корзину"),
+    BotCommand(command="search", description="🔍 Начать поиск еды"),
+
 ]
 admin_commands = user_commands + [
-    BotCommand(command="admin", description="Список админов"),
-    BotCommand(command="add_food", description="Добавить новую еду"),
+    BotCommand(command="admin", description="👨‍💻 Список админов"),
+    BotCommand(command="add_food", description="➕ Добавить новую еду"),
 ]
 
 

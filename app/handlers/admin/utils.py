@@ -19,6 +19,6 @@ async def admins(message: types.Message, page: int = 0) -> None:
         keyboard = pagination(values, page, MAX_PER_PAGE, "admin")
 
         await message.answer(
-            f"*Список всех админов*:",
+            f"👨‍💻 *Список всех админов*:",
             reply_markup=make_keyboard_with_plus(keyboard, "add_admin").as_markup(),
         )

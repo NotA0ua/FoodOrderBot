@@ -21,7 +21,7 @@ async def add_admin_handler(
 ) -> None:
     await state.set_state(AddAdmin.add_admin)
     await callback_query.message.edit_text(
-        reply_markup=None, text="Введите *ID* админа:"
+        reply_markup=None, text="🔢 Введите *ID* админа:"
     )
 
 
@@ -32,15 +32,15 @@ async def admin_id_handler(message: types.Message, state: FSMContext) -> None:
             await message.bot.get_chat_member(int(message.text), int(message.text))
         except TelegramBadRequest:
             await message.answer(
-                "*Такого пользователя не существует или он не запустил бота!*\nВведите пользователя еще раз или нажмите /start"
+                "⚠️ *Такого пользователя не существует или он не запустил бота!*\nВведите пользователя еще раз или нажмите /start"
             )
         else:
             admin_id = int(message.text)
             await db.add_admin(admin_id)
             await state.clear()
-            await message.bot.send_message(admin_id, f"Поздравляю, вы теперь админ!")
+            await message.bot.send_message(admin_id, f"🎉 Поздравляю, вы теперь админ!")
             await admins(message)
     else:
         await message.answer(
-            "*Вы неправильно ввели id пользователя!*\nВведите пользователя еще раз или нажмите /start"
+            "⚠️ *Вы неправильно ввели id пользователя!*\nВведите пользователя еще раз или нажмите /start"
         )
